@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "calculator/backend/api/calculator;calculatorpb";
+
+// CalculatorService 定义了基础的计算器服务接口
+service CalculatorService {
+  // Add 执行加法运算
+  rpc Add(CalculateRequest) returns (CalculateResponse);
+  
+  // Subtract 执行减法运算
+  rpc Subtract(CalculateRequest) returns (CalculateResponse);
+  
+  // Multiply 执行乘法运算
+  rpc Multiply(CalculateRequest) returns (CalculateResponse);
+  
+  // Divide 执行除法运算
+  rpc Divide(CalculateRequest) returns (CalculateResponse);
+}
+
+// CalculateRequest 包含两个操作数
+message CalculateRequest {
+  double a = 1;
+  double b = 2;
+}
+
+// CalculateResponse 包含计算结果
+message CalculateResponse {
+  double result = 1;
+  string error = 2; // 用于返回错误信息，如除以零错误
+}
