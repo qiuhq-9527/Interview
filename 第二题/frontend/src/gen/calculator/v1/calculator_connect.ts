@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CalculateRequest, CalculateResponse } from "./calculator_pb.js";
+import { CalculateRequest, CalculateResponse } from "./calculator_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
