@@ -8,6 +8,7 @@
 - ConnectRPC
 - Protocol Buffers
 - HTTP/2
+- Testify (用于单元测试)
 
 ## 项目结构
 
@@ -23,6 +24,8 @@ backend/
 │   └── calculator/
 │       └── v1/      # API 版本 1
 ├── tests/           # 测试代码
+│   ├── README.md    # 测试说明文档
+│   └── test_calculator.go  # 集成测试
 ├── buf.gen.yaml     # Buf 生成配置
 └── buf.yaml         # Buf 配置文件
 ```
@@ -56,6 +59,11 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
 ```
 
+4. 安装测试依赖：
+```bash
+go get github.com/stretchr/testify/assert
+```
+
 ## 生成代码
 
 在项目根目录下运行：
@@ -84,6 +92,25 @@ PORT=3000 go run cmd/server/main.go
 
 ## 测试服务
 
+### 单元测试
+
+运行所有单元测试：
+```bash
+go test ./internal/...
+```
+
+带详细输出的单元测试：
+```bash
+go test -v ./internal/calculator
+```
+
+检查测试覆盖率：
+```bash
+go test -cover ./internal/calculator
+```
+
+### 集成测试
+
 1. 启动服务器：
 ```bash
 go run cmd/server/main.go
@@ -93,6 +120,8 @@ go run cmd/server/main.go
 ```bash
 go run tests/test_calculator.go
 ```
+
+更多测试信息请参考 [tests/README.md](tests/README.md)
 
 ## API 说明
 
@@ -114,8 +143,26 @@ req := connect.NewRequest(&calculatorv1.CalculateRequest{
 res, err := client.Calculate(context.Background(), req)
 ```
 
+### 错误处理
+
+服务处理以下错误情况：
+- 除数为零：返回错误消息 "division by zero"
+- 不支持的操作：返回 Connect 错误码 CodeInvalidArgument
+- 数值溢出：返回错误消息 "result is infinite"
+- NaN 结果：返回错误消息 "result is not a number"
+
+## ConnectRPC 说明
+
+本服务使用 ConnectRPC 协议，而不是传统的 gRPC 或 REST API。主要特点：
+
+- 基于 HTTP/2，支持双向流
+- 兼容 gRPC 客户端
+- 支持浏览器直接调用，无需代理
+- 轻量级，不需要特殊的代理或网关
+
 ## 注意事项
 
 1. 服务默认允许所有来源的 CORS 请求，生产环境应该限制允许的域名
 2. 服务使用 HTTP/2 协议，确保客户端支持 HTTP/2
-3. 除法运算会检查除数为零的情况 
+3. 除法运算会检查除数为零的情况
+4. 服务在启动后会等待中断信号 (Ctrl+C) 然后优雅关闭 
