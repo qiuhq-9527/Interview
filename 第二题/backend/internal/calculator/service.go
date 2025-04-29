@@ -5,7 +5,7 @@ import (
 	"errors"
 	"math"
 
-	calculatorv1 "calculator/backend/proto/calculator/v1"
+	calculatorv1 "calculator/backend/api/calculatorv1"
 
 	"connectrpc.com/connect"
 )
