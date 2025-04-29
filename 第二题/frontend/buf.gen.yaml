@@ -1,0 +1,12 @@
+version: v1
+plugins:
+  # Generate TypeScript code from proto
+  - plugin: es
+    out: src/gen
+    opt:
+      - target=ts
+  # Generate Connect-ES code (for web)
+  - plugin: connect-es
+    out: src/gen
+    opt:
+      - target=ts 

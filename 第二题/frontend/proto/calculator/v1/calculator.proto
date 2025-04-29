@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package calculator.v1;
+
+option go_package = "calculator/backend/api/calculatorv1";
+
+// Calculator service definition
+service CalculatorService {
+  // Perform arithmetic calculation
+  rpc Calculate(CalculateRequest) returns (CalculateResponse) {}
+}
+
+// Operation type enum
+enum Operation {
+  OPERATION_UNSPECIFIED = 0;
+  OPERATION_ADD = 1;
+  OPERATION_SUBTRACT = 2;
+  OPERATION_MULTIPLY = 3;
+  OPERATION_DIVIDE = 4;
+}
+
+// Request message for Calculate
+message CalculateRequest {
+  double first_operand = 1;
+  double second_operand = 2;
+  Operation operation = 3;
+}
+
+// Response message for Calculate
+message CalculateResponse {
+  double result = 1;
+  string error = 2; // Error message if any (e.g., division by zero)
+} 
