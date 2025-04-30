@@ -3,8 +3,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CalculateRequest, CalculateResponse } from "./calculator_pb";
-import { MethodKind } from "@bufbuild/protobuf";
+// 导入我们自定义的类型，避免循环引用
+import { CalculateRequest, CalculateResponse } from "./calculator_pb.js";
 
 /**
  * Calculator service definition
@@ -23,7 +23,7 @@ export const CalculatorService = {
       name: "Calculate",
       I: CalculateRequest,
       O: CalculateResponse,
-      kind: MethodKind.Unary,
+      kind: 1, // Unary method
     },
   }
 } as const;

@@ -1,5 +1,3 @@
-import { Operation } from "../gen/calculator/v1/calculator_pb";
-
 /**
  * 计算器模型，负责存储计算器的状态
  */
@@ -10,8 +8,8 @@ export interface CalculatorState {
   // 第一个操作数
   firstOperand: number | null;
   
-  // 操作类型
-  operation: Operation | null;
+  // 操作类型 (0=未指定, 1=加, 2=减, 3=乘, 4=除)
+  operation: number | null;
   
   // 是否等待输入第二个操作数
   waitingForSecondOperand: boolean;

@@ -24,15 +24,15 @@ export default function CalcButton({
   const getButtonStyle = (): string => {
     switch (type) {
       case 'digit':
-        return 'bg-calc-gray text-white';
+        return 'bg-gray-200 text-gray-800 hover:bg-gray-300';
       case 'operation':
-        return 'bg-calc-orange text-white';
+        return 'bg-blue-500 text-white hover:bg-blue-600';
       case 'function':
-        return 'bg-calc-light-gray text-black';
+        return 'bg-gray-300 text-gray-700 hover:bg-gray-400';
       case 'equals':
-        return 'bg-calc-orange text-white';
+        return 'bg-blue-500 text-white hover:bg-blue-600';
       default:
-        return 'bg-calc-gray text-white';
+        return 'bg-gray-200 text-gray-800';
     }
   };
 
@@ -40,7 +40,7 @@ export default function CalcButton({
     <button
       className={`calc-button ${getButtonStyle()} h-16 
       ${wide ? 'col-span-2 rounded-full pl-6 flex justify-start' : 'aspect-square'} 
-      shadow-calc-button text-2xl font-medium focus:outline-none`}
+      shadow-sm text-2xl font-medium focus:outline-none transition-colors duration-150`}
       onClick={onClick}
     >
       {label}

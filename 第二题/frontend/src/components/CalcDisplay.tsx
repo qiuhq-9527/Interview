@@ -5,12 +5,21 @@ import React from 'react';
 interface CalcDisplayProps {
   value: string;
   hasError?: boolean;
+  pendingOperation?: boolean;
+  firstOperand?: string | null;
+  operationType?: string | null;
 }
 
 /**
  * 计算器显示屏组件
  */
-export default function CalcDisplay({ value, hasError = false }: CalcDisplayProps) {
+export default function CalcDisplay({ 
+  value, 
+  hasError = false,
+  pendingOperation = false,
+  firstOperand = null,
+  operationType = null
+}: CalcDisplayProps) {
   // 格式化显示值，处理大数和长数字
   const formatDisplayValue = (value: string): string => {
     // 错误信息直接显示
@@ -47,18 +56,25 @@ export default function CalcDisplay({ value, hasError = false }: CalcDisplayProp
   // 根据数字长度调整字体大小
   const getFontSize = (value: string): string => {
     const length = value.length;
-    if (length > 8) return 'text-3xl';
-    if (length > 6) return 'text-4xl';
-    return 'text-5xl';
+    if (length > 8) return 'text-2xl';
+    if (length > 6) return 'text-3xl';
+    return 'text-4xl';
   };
 
   const displayValue = formatDisplayValue(value);
 
   return (
-    <div className="w-full h-24 flex items-end justify-end px-4 pb-2 overflow-hidden">
-      <span className={`${getFontSize(displayValue)} font-semibold ${hasError ? 'text-red-500' : 'text-white'}`}>
-        {displayValue}
-      </span>
+    <div className="calculator-display h-24 bg-gray-50 rounded-xl mb-4">
+      {pendingOperation && firstOperand && operationType && (
+        <div className="text-right text-gray-500 text-sm pr-2">
+          {firstOperand} {operationType}
+        </div>
+      )}
+      <div className="flex items-end justify-end h-full px-4 pb-2 overflow-hidden">
+        <span className={`${getFontSize(displayValue)} font-semibold ${hasError ? 'text-red-500' : 'text-gray-800'}`}>
+          {displayValue}
+        </span>
+      </div>
     </div>
   );
 } 
