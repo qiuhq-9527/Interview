@@ -39,7 +39,7 @@ frontend/
 
 2. 安装依赖：
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 3. 启动开发服务器：
@@ -76,3 +76,67 @@ npm run dev
 ## 与后端集成
 
 前端通过 ConnectRPC 与后端服务进行通信，API 客户端配置在 `src/api/calculatorClient.ts` 中。所有计算操作都会发送到后端进行处理，然后将结果返回给前端显示。
+
+## 单元测试
+
+项目使用 Jest 和 React Testing Library 进行单元测试。
+
+### 测试环境设置
+
+由于项目使用了 React 19，而一些测试库可能与此版本不完全兼容，我们提供了一个设置脚本来解决这些兼容性问题：
+
+```bash
+# 使脚本可执行
+chmod +x setup-tests.sh
+
+# 运行设置脚本
+./setup-tests.sh
+```
+
+或者，您可以手动安装依赖：
+
+```bash
+npm install --legacy-peer-deps
+```
+
+### 测试覆盖范围
+
+1. **模型测试**: 测试数据模型的初始状态
+2. **视图模型测试**: 测试计算器功能的业务逻辑
+3. **组件测试**: 测试UI组件的渲染和交互
+4. **API客户端测试**: 测试与后端的通信
+
+### 运行测试
+
+执行所有测试：
+```bash
+npm test
+```
+
+持续监视模式（开发时推荐）：
+```bash
+npm run test:watch
+```
+
+### 测试文件位置
+
+- 模型测试: `src/models/__tests__/*.test.ts`
+- 视图模型测试: `src/viewmodels/__tests__/*.test.ts`
+- 组件测试: `src/components/__tests__/*.test.tsx`
+- API客户端测试: `src/api/__tests__/*.test.ts`
+
+### 测试约定
+
+- 每个测试文件应位于与被测代码相同的目录下的 `__tests__` 文件夹中
+- 测试文件名应以 `.test.ts` 或 `.test.tsx` 结尾
+- 使用 `describe` 块组织相关测试
+- 使用 `test` 或 `it` 函数定义具体的测试用例
+- 测试需要模拟外部依赖，如API调用和第三方库
+
+## 错误处理
+
+应用实现了全面的错误处理：
+
+- API错误会在界面上明确显示
+- 运算错误（如除以零）会显示适当的错误消息
+- 网络问题会提供用户友好的错误提示
